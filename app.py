@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(layout="wide", page_title="埼玉県プロポーザル情報収集")
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -38,6 +39,56 @@ MUNICIPALITIES = [
         'url': 'https://www.city.tokorozawa.saitama.jp/shiseijoho/jigyo/news/index.html',
         'base_url': 'https://www.city.tokorozawa.saitama.jp',
     },
+    {
+        '自治体': '熊谷市',
+        'url': 'https://www.city.kumagaya.lg.jp/category/boshu/index.html',
+        'base_url': 'https://www.city.kumagaya.lg.jp',
+    },
+    {
+        '自治体': '春日部市',
+        'url': 'https://www.city.kasukabe.lg.jp/jigyoshamuke/nyusatsu_keiyaku/nyusatsukokokuichiran/index.html',
+        'base_url': 'https://www.city.kasukabe.lg.jp',
+    },
+    {
+        '自治体': '草加市',
+        'url': 'https://www.city.soka.saitama.jp/li/050/070/030/050/index.html',
+        'base_url': 'https://www.city.soka.saitama.jp',
+    },
+    {
+        '自治体': '上尾市',
+        'url': 'https://www.city.ageo.lg.jp/life/3/19/',
+        'base_url': 'https://www.city.ageo.lg.jp',
+    },
+    {
+        '自治体': '久喜市',
+        'url': 'https://www.city.kuki.lg.jp/shisei/jigyo/nyusatsu_keiyaku/1002295/index.html',
+        'base_url': 'https://www.city.kuki.lg.jp',
+    },
+    {
+        '自治体': '新座市',
+        'url': 'https://www.city.niiza.lg.jp/life/18/111/',
+        'base_url': 'https://www.city.niiza.lg.jp',
+    },
+        {
+        '自治体': '八潮市',
+        'url': 'https://www.city.yashio.lg.jp/jigyosha/nyusatsu_keiyaku/hatchujoho/index.html',
+        'base_url': 'https://www.city.yashio.lg.jp',
+    },
+    {
+        '自治体': '三郷市',
+        'url': 'https://www.city.misato.lg.jp/soshiki/somu/keiyaku/kohyo_shiryo/index.html',
+        'base_url': 'https://www.city.misato.lg.jp',
+    },
+    {
+        '自治体': '狭山市',
+        'url': 'https://www.city.sayama.saitama.jp/jigyo/koubo/index.html',
+        'base_url': 'https://www.city.sayama.saitama.jp',
+    },
+    {
+        '自治体': '入間市',
+        'url': 'https://www.city.iruma.saitama.jp/shigoto_sangyo/nyusatsu_keiyaku/proposal/index.html',
+        'base_url': 'https://www.city.iruma.saitama.jp',
+    },  
 ]
 
 KEYWORDS = ['プロポーザル', '企画提案競技', '企画提案募集']
@@ -89,7 +140,7 @@ def load_data():
 
 # ヘッダー
 st.title('埼玉県プロポーザル情報収集')
-st.caption('埼玉県・さいたま市・川口市・川越市・越谷市・所沢市のプロポーザル情報を収集・表示します')
+st.caption('埼玉県各市町村のプロポーザル情報を収集・表示します')
 st.divider()
 
 # 最新情報取得ボタン
@@ -112,7 +163,7 @@ if df.empty:
 with col2:
     if '取得日' in df.columns and not df.empty:
         latest_date = df['取得日'].max()
-        st.info(f'📅 最終取得日：{latest_date}')
+        st.info(f'最終取得日：{latest_date}')
 
 st.divider()
 
@@ -136,12 +187,14 @@ if col_b.button('全解除', use_container_width=True):
     for m in municipalities_list:
         st.session_state[f'cb_{m}'] = False
 
-# チェックボックス（session_stateで管理）
+# チェックボックス（2列表示）
 selected = []
-for m in municipalities_list:
-    # チェックボックスの変更をsession_stateに反映
-    val = st.sidebar.checkbox(m, value=st.session_state[f'cb_{m}'])
-    st.session_state[f'cb_{m}'] = val
+cols = st.sidebar.columns(2)
+for i, m in enumerate(municipalities_list):
+    key = f'cb_{m}'
+    if key not in st.session_state:
+        st.session_state[key] = True
+    val = cols[i % 2].checkbox(m, value=st.session_state[key], key=key)
     if val:
         selected.append(m)
 
@@ -190,7 +243,7 @@ if search_button and keyword:
 elif not search_button and keyword == '':
     pass  # キーワードなしはそのまま表示
 # 結果表示
-st.subheader(f'📋 検索結果：{len(filtered_df)}件')
+st.subheader(f'検索結果：{len(filtered_df)}件')
 
 if not filtered_df.empty and '自治体' in filtered_df.columns:
     col1, col2, col3 = st.columns(3)
@@ -208,5 +261,5 @@ elif filtered_df.empty:
 # 一覧表示
 for _, row in filtered_df.iterrows():
     with st.expander(f"【{row['自治体']}】{row['タイトル']}"):
-        st.write(f"🔗 [詳細ページを開く]({row['URL']})")
-        st.write(f"📅 取得日：{row['取得日']}")
+        st.write(f" [詳細ページを開く]({row['URL']})")
+        st.write(f" 取得日：{row['取得日']}")

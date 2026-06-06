@@ -36,7 +36,7 @@ MUNICIPALITIES = [
     {'自治体': '飯能市',   'url': 'https://www.city.hanno.lg.jp/sangyo_jigyoshamuke/nyusatsu_keiyaku_saikenshatoroku/nyusatsujoho/index.html', 'base_url': 'https://www.city.hanno.lg.jp'},
 ]
 
-SCRAPE_KEYWORDS = ['プロポーザル', '企画提案競技', '企画提案募集']
+SCRAPE_KEYWORDS = ['プロポーザル', '企画提案競技', '企画提案募集', '企画提案']
 CSV_PATH      = 'proposal_data.csv'
 CSV_PREV_PATH = 'proposal_data_prev.csv'
 

@@ -29,6 +29,11 @@ MUNICIPALITIES = [
     {'自治体': '三郷市',   'url': 'https://www.city.misato.lg.jp/soshiki/somu/keiyaku/kohyo_shiryo/index.html',         'base_url': 'https://www.city.misato.lg.jp'},
     {'自治体': '狭山市',   'url': 'https://www.city.sayama.saitama.jp/jigyo/koubo/index.html',                         'base_url': 'https://www.city.sayama.saitama.jp'},
     {'自治体': '入間市',   'url': 'https://www.city.iruma.saitama.jp/shigoto_sangyo/nyusatsu_keiyaku/proposal/index.html', 'base_url': 'https://www.city.iruma.saitama.jp'},
+    {'自治体': '深谷市',   'url': 'https://www.city.fukaya.saitama.jp/business/nyusatsukeiyaku/hachu/index.html',               'base_url': 'https://www.city.fukaya.saitama.jp'},
+    {'自治体': '行田市',   'url': 'https://www.city.gyoda.lg.jp/shigoto_sangyo/nyusatsu_keiyaku/index.html',                    'base_url': 'https://www.city.gyoda.lg.jp'},
+    {'自治体': '羽生市',   'url': 'https://www.city.hanyu.lg.jp/categories/kubun/boshu/',                                       'base_url': 'https://www.city.hanyu.lg.jp'},
+    {'自治体': '東松山市', 'url': 'https://www.city.higashimatsuyama.lg.jp/life/2/24/',                                         'base_url': 'https://www.city.higashimatsuyama.lg.jp'},
+    {'自治体': '飯能市',   'url': 'https://www.city.hanno.lg.jp/sangyo_jigyoshamuke/nyusatsu_keiyaku_saikenshatoroku/nyusatsujoho/index.html', 'base_url': 'https://www.city.hanno.lg.jp'},
 ]
 
 SCRAPE_KEYWORDS = ['プロポーザル', '企画提案競技', '企画提案募集']

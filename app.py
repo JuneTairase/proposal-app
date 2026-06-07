@@ -22,21 +22,21 @@ MUNICIPALITIES = [
     {'自治体': '熊谷市',   'url': 'https://www.city.kumagaya.lg.jp/category/boshu/index.html',                         'base_url': 'https://www.city.kumagaya.lg.jp'},
     {'自治体': '春日部市', 'url': 'https://www.city.kasukabe.lg.jp/jigyoshamuke/nyusatsu_keiyaku/nyusatsukokokuichiran/index.html', 'base_url': 'https://www.city.kasukabe.lg.jp'},
     {'自治体': '草加市',   'url': 'https://www.city.soka.saitama.jp/li/050/070/030/050/index.html',                    'base_url': 'https://www.city.soka.saitama.jp'},
-    {'自治体': '上尾市',   'url': 'https://www.city.ageo.lg.jp/life/3/19/',                                            'base_url': 'https://www.city.ageo.lg.jp'},
+    {'自治体': '上尾市',   'url': 'https://www.city.ageo.lg.jp/page/04111905241.html',                                            'base_url': 'https://www.city.ageo.lg.jp'},
     {'自治体': '久喜市',   'url': 'https://www.city.kuki.lg.jp/shisei/jigyo/nyusatsu_keiyaku/1002295/index.html',      'base_url': 'https://www.city.kuki.lg.jp'},
     {'自治体': '新座市',   'url': 'https://www.city.niiza.lg.jp/life/18/111/',                                          'base_url': 'https://www.city.niiza.lg.jp'},
     {'自治体': '八潮市',   'url': 'https://www.city.yashio.lg.jp/jigyosha/nyusatsu_keiyaku/hatchujoho/index.html',     'base_url': 'https://www.city.yashio.lg.jp'},
-    {'自治体': '三郷市',   'url': 'https://www.city.misato.lg.jp/soshiki/somu/keiyaku/kohyo_shiryo/index.html',         'base_url': 'https://www.city.misato.lg.jp'},
-    {'自治体': '狭山市',   'url': 'https://www.city.sayama.saitama.jp/jigyo/koubo/index.html',                         'base_url': 'https://www.city.sayama.saitama.jp'},
+    {'自治体': '三郷市',   'url': 'https://www.city.misato.lg.jp/soshiki/somu/keiyaku/nyusatsujouhou/index.html',         'base_url': 'https://www.city.misato.lg.jp'},
+    {'自治体': '狭山市',   'url': 'https://www.city.sayama.saitama.jp/jigyo/index.html',                         'base_url': 'https://www.city.sayama.saitama.jp'},
     {'自治体': '入間市',   'url': 'https://www.city.iruma.saitama.jp/shigoto_sangyo/nyusatsu_keiyaku/proposal/index.html', 'base_url': 'https://www.city.iruma.saitama.jp'},
     {'自治体': '深谷市',   'url': 'https://www.city.fukaya.saitama.jp/business/nyusatsukeiyaku/hachu/index.html',               'base_url': 'https://www.city.fukaya.saitama.jp'},
     {'自治体': '行田市',   'url': 'https://www.city.gyoda.lg.jp/shigoto_sangyo/nyusatsu_keiyaku/index.html',                    'base_url': 'https://www.city.gyoda.lg.jp'},
-    {'自治体': '羽生市',   'url': 'https://www.city.hanyu.lg.jp/categories/kubun/boshu/',                                       'base_url': 'https://www.city.hanyu.lg.jp'},
+    {'自治体': '羽生市',   'url': 'https://www.city.hanyu.lg.jp/categories/bunya/jigyosha/nyusatsu/',                                       'base_url': 'https://www.city.hanyu.lg.jp'},
     {'自治体': '東松山市', 'url': 'https://www.city.higashimatsuyama.lg.jp/life/2/24/',                                         'base_url': 'https://www.city.higashimatsuyama.lg.jp'},
     {'自治体': '飯能市',   'url': 'https://www.city.hanno.lg.jp/sangyo_jigyoshamuke/nyusatsu_keiyaku_saikenshatoroku/nyusatsujoho/index.html', 'base_url': 'https://www.city.hanno.lg.jp'},
     {'自治体': '朝霞市',   'url': 'https://www.city.asaka.lg.jp/life/2/54/',                                                                     'base_url': 'https://www.city.asaka.lg.jp'},
-    {'自治体': '戸田市',   'url': 'https://www.city.toda.saitama.jp/soshiki/173/',                                                                'base_url': 'https://www.city.toda.saitama.jp'},
-    {'自治体': '鴻巣市',   'url': 'https://www.city.kounosu.saitama.jp/site/nyusatsukeiyaku/',                                                    'base_url': 'https://www.city.kounosu.saitama.jp'},
+    {'自治体': '戸田市',   'url': 'https://www.city.toda.saitama.jp/life/6/50/',                                                                'base_url': 'https://www.city.toda.saitama.jp'},
+    {'自治体': '鴻巣市',   'url': 'https://www.city.kounosu.saitama.jp/site/nyusatsukeiyaku/3456.html',                                                    'base_url': 'https://www.city.kounosu.saitama.jp'},
     {'自治体': '加須市',   'url': 'https://www.city.kazo.lg.jp/shigoto_sangyo/nyusatsu_keiyaku/proposal/index.html',                             'base_url': 'https://www.city.kazo.lg.jp'},
     {'自治体': '富士見市', 'url': 'https://www.city.fujimi.saitama.jp/60jigyo/17nyuusatsu/proposal/',                                             'base_url': 'https://www.city.fujimi.saitama.jp'},
 ]
@@ -369,3 +369,35 @@ for _, row in filtered_df.iterrows():
         st.caption(f"取得日：{row['取得日']}")
         if is_new:
             st.success('✨ 前回取得時には存在しなかった新着情報です')
+
+# ───────────────────────────────────────────
+# 注釈・懸念事項
+# ───────────────────────────────────────────
+st.divider()
+st.subheader('📝 注釈・懸念事項')
+st.markdown('''
+**【スクレイピングキーワードについて】**
+現在のスクレイピングキーワードは「プロポーザル」「企画提案競技」「企画提案募集」「企画提案」の4つです。
+「企画提案」を追加したことで情報の取りこぼしは減りましたが、関係のない案件が混入する可能性があります。
+ノイズが気になる場合はサイドバーの「除外キーワード管理」で調整してください。
+
+**【0件または件数が少ない可能性がある自治体】**
+以下の自治体はプロポーザル専用の一覧ページがなく、各部署に情報が分散しているため、
+取得できていない案件がある可能性があります。
+
+| 自治体 | 懸念内容 |
+|---|---|
+| 上尾市 | 専用ページなし。各部署に分散しているため取りこぼしの可能性あり |
+| 三郷市 | 専用ページなし。各部署に分散しているため取りこぼしの可能性あり |
+| 狭山市 | 専用ページなし。各部署に分散しているため取りこぼしの可能性あり |
+| 羽生市 | 専用ページなし。各部署に分散しているため取りこぼしの可能性あり |
+| 戸田市 | 専用ページなし。入札情報トップから取得しているため取りこぼしの可能性あり |
+| 鴻巣市 | プロポーザル選定結果ページのみ参照。募集中案件が取れていない可能性あり |
+| 行田市 | 専用ページはあるが掲載件数が少ない。各部署に分散している可能性あり |
+| 飯能市 | 入札情報全般ページを参照。プロポーザル以外の情報も混入する可能性あり |
+
+**【新着件数の表示について】**
+「前回比 新着X件」はフィルター適用前の全データで比較しています。
+「表示対象Y件」は除外キーワード等フィルター適用後の件数です。
+初回取得時は前回データがないため、全件が新着として表示されます。
+''')

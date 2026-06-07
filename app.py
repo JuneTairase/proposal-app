@@ -352,9 +352,12 @@ if filtered_df.empty and st.session_state['new_filter_municipality'] is None:
 # 自治体新着フィルター適用
 if st.session_state['new_filter_municipality']:
     target = st.session_state['new_filter_municipality']
-    filtered_df = filtered_df[
-        (filtered_df['自治体'] == target) & (filtered_df['新着'] == True)
-    ]
+    if '新着' in filtered_df.columns:
+        filtered_df = filtered_df[
+            (filtered_df['自治体'] == target) & (filtered_df['新着'] == True)
+        ]
+    else:
+        filtered_df = filtered_df[filtered_df['自治体'] == target]
     st.info(f'🔍 {target} の新着のみ表示中　／　[全件に戻す] ← 同じボタンを再クリック')
 
 st.divider()

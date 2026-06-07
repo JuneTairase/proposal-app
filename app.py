@@ -323,22 +323,23 @@ else:
 
 st.subheader(f'検索結果：{len(filtered_df)} 件　（うち新着 {new_in_filtered} 件）')
 
-# 自治体別件数サマリー（ボタン形式）
+# 自治体別件数サマリー（全部ボタン形式・統一）
 if not filtered_df.empty:
     mc = filtered_df['自治体'].value_counts()
-    cols_m = st.columns(min(len(mc), 4))
+    cols_m = st.columns(4)
     for i, (name, count) in enumerate(mc.items()):
         new_c = int(filtered_df[filtered_df['自治体'] == name]['新着'].sum())
+        is_selected = st.session_state['new_filter_municipality'] == name
         if new_c > 0:
-            label = f'{name}\n{count}件　🆕{new_c}'
-            if cols_m[i % 4].button(label, key=f'btn_{name}', use_container_width=True):
-                if st.session_state['new_filter_municipality'] == name:
-                    st.session_state['new_filter_municipality'] = None  # 再クリックで解除
-                else:
-                    st.session_state['new_filter_municipality'] = name
-                st.rerun()
+            btn_label = f"{'✅ ' if is_selected else ''}{name}　{count}件　🆕 {new_c}件"
         else:
-            cols_m[i % 4].metric(name, f'{count}件')
+            btn_label = f"{name}　{count}件"
+        if cols_m[i % 4].button(btn_label, key=f'btn_{name}', use_container_width=True, disabled=(new_c == 0)):
+            if is_selected:
+                st.session_state['new_filter_municipality'] = None
+            else:
+                st.session_state['new_filter_municipality'] = name
+            st.rerun()
 else:
     st.info('条件に合う情報がありません。')
 

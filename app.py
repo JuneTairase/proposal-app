@@ -149,6 +149,8 @@ def mark_new(df, prev_df):
 # 除外キーワード：リストのみ管理。ON/OFFはst.session_stateのキー 'exkw_XXX' で完全管理
 if 'exclude_kw_list' not in st.session_state:
     st.session_state['exclude_kw_list'] = list(DEFAULT_EXCLUDE)
+if 'new_filter_municipality' not in st.session_state:
+    st.session_state['new_filter_municipality'] = None
 # 各キーワードのチェック状態を初期化（まだキーがないものだけ）
 for _kw in st.session_state['exclude_kw_list']:
     _key = f'exkw_{_kw}'
@@ -321,16 +323,32 @@ else:
 
 st.subheader(f'検索結果：{len(filtered_df)} 件　（うち新着 {new_in_filtered} 件）')
 
-# 自治体別件数サマリー
+# 自治体別件数サマリー（ボタン形式）
 if not filtered_df.empty:
     mc = filtered_df['自治体'].value_counts()
     cols_m = st.columns(min(len(mc), 4))
     for i, (name, count) in enumerate(mc.items()):
         new_c = int(filtered_df[filtered_df['自治体'] == name]['新着'].sum())
-        badge = f' 🆕{new_c}' if new_c > 0 else ''
-        cols_m[i % 4].metric(name, f'{count}件{badge}')
+        if new_c > 0:
+            label = f'{name}\n{count}件　🆕{new_c}'
+            if cols_m[i % 4].button(label, key=f'btn_{name}', use_container_width=True):
+                if st.session_state['new_filter_municipality'] == name:
+                    st.session_state['new_filter_municipality'] = None  # 再クリックで解除
+                else:
+                    st.session_state['new_filter_municipality'] = name
+                st.rerun()
+        else:
+            cols_m[i % 4].metric(name, f'{count}件')
 else:
     st.info('条件に合う情報がありません。')
+
+# 自治体新着フィルター適用
+if st.session_state['new_filter_municipality']:
+    target = st.session_state['new_filter_municipality']
+    filtered_df = filtered_df[
+        (filtered_df['自治体'] == target) & (filtered_df['新着'] == True)
+    ]
+    st.info(f'🔍 {target} の新着のみ表示中　／　[全件に戻す] ← 同じボタンを再クリック')
 
 st.divider()
 

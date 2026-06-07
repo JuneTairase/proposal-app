@@ -229,8 +229,22 @@ new_only = st.sidebar.checkbox('🆕 新着のみ表示', value=False)
 
 st.sidebar.divider()
 
+# ── 取得日で絞り込み ──
+st.sidebar.subheader('③ 取得日で絞り込み')
+use_date_filter = st.sidebar.checkbox('取得日で絞り込む', value=False)
+if use_date_filter:
+    _min_date = pd.to_datetime(df['取得日']).min().date()
+    _max_date = pd.to_datetime(df['取得日']).max().date()
+    date_from = st.sidebar.date_input('開始日', value=_min_date, min_value=_min_date, max_value=_max_date)
+    date_to   = st.sidebar.date_input('終了日', value=_max_date, min_value=_min_date, max_value=_max_date)
+else:
+    date_from = None
+    date_to   = None
+
+st.sidebar.divider()
+
 # ── 除外キーワード管理 ──
-st.sidebar.subheader('③ 除外キーワード管理')
+st.sidebar.subheader('④ 除外キーワード管理')
 with st.sidebar.expander('除外キーワードを編集', expanded=False):
     st.caption('チェックを外すと除外しません（キーワード自体は消えません）')
     for kw in st.session_state['exclude_kw_list']:
@@ -250,7 +264,7 @@ with st.sidebar.expander('除外キーワードを編集', expanded=False):
 st.sidebar.divider()
 
 # ── CSV出力 ──
-st.sidebar.subheader('④ データ出力')
+st.sidebar.subheader('⑤ データ出力')
 csv_bytes = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
 st.sidebar.download_button(
     label='📥 全データをCSVダウンロード',
@@ -282,6 +296,15 @@ if keyword:
 # 新着のみ
 if new_only:
     filtered_df = filtered_df[filtered_df['新着'] == True]
+
+# 取得日で絞り込み
+if use_date_filter and date_from and date_to:
+    filtered_df['取得日_dt'] = pd.to_datetime(filtered_df['取得日'])
+    filtered_df = filtered_df[
+        (filtered_df['取得日_dt'].dt.date >= date_from) &
+        (filtered_df['取得日_dt'].dt.date <= date_to)
+    ]
+    filtered_df = filtered_df.drop(columns=['取得日_dt'])
 
 # ───────────────────────────────────────────
 # 結果表示

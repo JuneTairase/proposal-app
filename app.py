@@ -142,10 +142,18 @@ def load_data(path=CSV_PATH):
 # ───────────────────────────────────────────
 def mark_new(df, prev_df):
     if prev_df.empty:
-        df['新着'] = True
+        df['新着'] = False  # 初回は新着なしとして扱う（全件NEWを避ける）
         return df
-    prev_urls = set(prev_df['URL'].dropna())
-    df['新着'] = ~df['URL'].isin(prev_urls)
+    # タイトル＋自治体名の組み合わせで判定（URLは変動する場合があるため）
+    prev_keys = set(
+        (row['自治体'] + '||' + row['タイトル'])
+        for _, row in prev_df.iterrows()
+        if pd.notna(row['自治体']) and pd.notna(row['タイトル'])
+    )
+    df['新着'] = df.apply(
+        lambda r: (str(r['自治体']) + '||' + str(r['タイトル'])) not in prev_keys,
+        axis=1
+    )
     return df
 
 # ───────────────────────────────────────────
@@ -203,7 +211,8 @@ st.sidebar.header('🔍 絞り込み条件')
 
 # ── 自治体選択 ──
 st.sidebar.subheader('① 自治体')
-municipalities_list = df['自治体'].unique().tolist()
+# CSVではなくMUNICIPALITIESから固定参照（取得結果に関わらず常に全自治体を表示）
+municipalities_list = [m['自治体'] for m in MUNICIPALITIES]
 
 for m in municipalities_list:
     if f'cb_{m}' not in st.session_state:
